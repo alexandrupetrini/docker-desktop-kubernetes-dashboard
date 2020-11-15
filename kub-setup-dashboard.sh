@@ -13,7 +13,11 @@ kubectl apply -f ./ClusterRoleBindingServiceAccount.yaml
 
 echo -e '\n======================================================='
 echo -e '# Start a kubectl proxy (in the background):'
-kubectl proxy &
+if [ -n "$(ps -ef | grep 'kubectl proxy' | grep -v 'grep')" ]; then
+    echo "Proxy is already running."
+else
+    kubectl proxy &
+fi
 
 echo -e '\n======================================================='
 echo -e '# Enter the URL on your browser: http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/'
